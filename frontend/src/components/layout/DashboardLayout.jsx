@@ -13,17 +13,23 @@ const DashboardLayout = () => {
     if (!user) return <Navigate to="/login" />;
 
     return (
-        <div className="min-h-screen bg-background text-foreground flex transition-colors duration-300">
+        <div className="min-h-screen bg-background text-foreground flex transition-colors duration-500 overflow-hidden">
+            {/* Background Blob Effects (Themed) */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-600/10 rounded-full blur-[100px]" />
+                <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-[100px]" />
+            </div>
+
             <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
             <div
-                className={`flex-1 flex flex-col transition-all duration-300`}
+                className={`relative z-10 flex-1 flex flex-col transition-all duration-300`}
                 style={{ marginLeft: collapsed ? '80px' : '280px' }}
             >
                 {/* Top Header */}
-                <header className="h-20 bg-background/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5 sticky top-0 z-30 px-8 flex items-center justify-between transition-colors duration-300">
-                    <div className="flex items-center gap-4 bg-gray-100 dark:bg-surface/50 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/5 w-96 transition-colors duration-300">
-                        <Search className="w-4 h-4 text-gray-400" />
+                <header className="h-20 bg-white/60 dark:bg-black/20 backdrop-blur-xl border-b border-gray-200 dark:border-white/5 sticky top-0 z-30 px-8 flex items-center justify-between transition-colors duration-500">
+                    <div className="flex items-center gap-4 bg-gray-100 dark:bg-white/5 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/5 w-96 focus-within:border-indigo-500/50 transition-colors">
+                        <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                         <input
                             type="text"
                             placeholder="Search analysis history..."
@@ -34,19 +40,23 @@ const DashboardLayout = () => {
                     <div className="flex items-center gap-6">
                         <ThemeToggle />
 
-                        <button className="relative p-2 text-gray-400 hover:text-foreground transition-colors">
+                        <button className="relative p-2 text-gray-500 dark:text-gray-400 hover:text-foreground transition-colors">
                             <Bell className="w-5 h-5" />
-                            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-lg"></span>
                         </button>
 
                         <div className="flex items-center gap-3 pl-6 border-l border-gray-200 dark:border-white/10">
                             <div className="text-right hidden md:block">
                                 <p className="text-sm font-bold text-foreground">{user.name}</p>
-                                <p className="text-xs text-gray-400 capitalize">{user.role}</p>
+                                <p className="text-xs text-indigo-500 dark:text-indigo-400 capitalize">{user.role || 'Researcher'}</p>
                             </div>
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-[2px]">
-                                <div className="w-full h-full rounded-full bg-surface flex items-center justify-center overflow-hidden">
-                                    <User className="w-5 h-5 text-gray-300" />
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 p-[2px]">
+                                <div className="w-full h-full rounded-full bg-white dark:bg-black flex items-center justify-center overflow-hidden">
+                                    {user.name ? (
+                                        <span className="font-bold text-foreground text-xs">{user.name.charAt(0)}</span>
+                                    ) : (
+                                        <User className="w-5 h-5 text-gray-400" />
+                                    )}
                                 </div>
                             </div>
                         </div>
