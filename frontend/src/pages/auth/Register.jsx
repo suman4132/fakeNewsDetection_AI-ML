@@ -11,10 +11,20 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         setLoading(true);
-        // Simulate registration
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        navigate('/login');
-        setLoading(false);
+
+        const name = e.target[0].value;
+        const email = e.target[1].value;
+        const password = e.target[2].value;
+
+        try {
+            await register({ name, email, password });
+            navigate('/dashboard');
+        } catch (err) {
+            console.error(err);
+            alert('Registration Failed: ' + err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
